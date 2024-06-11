@@ -56,7 +56,7 @@ export const login = async (request: Request, response: Response) => {
 
 export const getTeams = async (request: Request, response: Response) => {
   try {
-    const allTeams = await Team.find();
+    const allTeams = await Team.find({}, { _id: false, __v: false });
     return response.status(200).json({ teams: allTeams });
   } catch (error) {
     console.log(error);
@@ -69,9 +69,9 @@ export const getFixtures = async (request: Request, response: Response) => {
     const { status } = request.query;
     let fixtures;
     if (status) {
-      fixtures = await Fixture.find({ status: status });
+      fixtures = await Fixture.find({ status: status }, { _id: false, __v: false });
     } else {
-      fixtures = await Fixture.find({}, { _id: false });
+      fixtures = await Fixture.find({}, { _id: false, __v: false });
     }
 
     return response.json({ fixtures });
@@ -87,9 +87,12 @@ export const search = async (request: Request, response: Response) => {
     const searchRegex = new RegExp(query as string, "i");
 
     // Search for fixtures
-    const fixtures = await Fixture.find({
-      $or: [{ homeTeam: searchRegex }, { awayTeam: searchRegex }],
-    })
+    const fixtures = await Fixture.find(
+      {
+        $or: [{ homeTeam: searchRegex }, { awayTeam: searchRegex }],
+      },
+      { _id: false, __v: false },
+    )
       .populate("homeTeam", "name")
       .populate("awayTeam", "name");
 

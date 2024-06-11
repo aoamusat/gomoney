@@ -12,6 +12,8 @@ COPY . .
 
 RUN npm run build
 
+RUN npm run db:seed
+
 EXPOSE 5004
 
 CMD ["node", "dist/index.js"]
