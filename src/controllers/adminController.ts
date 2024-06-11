@@ -8,6 +8,7 @@ import { loginSchema } from "../validations/login";
 import Team from "../models/team";
 import Fixture from "../models/fixture";
 import { fixtureSchema } from "../validations/fixture";
+import { generateFixtureLink } from "../utils/helpers";
 
 config();
 
