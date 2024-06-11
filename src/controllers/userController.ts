@@ -18,6 +18,10 @@ export const signUp = async (request: Request, response: Response) => {
       return response.status(400).json({ message: error.message });
     }
     const { email, password } = request.body;
+    const userExists = await User.exists({ username: email });
+    if (userExists) {
+      return response.status(422).json({ message: "User already exists" });
+    }
     const user = new User();
     user.username = email;
     user.role = "user";

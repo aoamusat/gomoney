@@ -2,12 +2,12 @@ import express from "express";
 import bodyParser from "body-parser";
 import mongoose from "mongoose";
 import userRoutes from "./routes/user.route";
-import teamRoutes from "./routes/team.route";
 import adminRoutes from "./routes/admin.route";
 import { config } from "dotenv";
 import session from "express-session";
 import RedisStore from "connect-redis";
 import { createClient } from "redis";
+import { search } from "./controllers/userController";
 
 config();
 
@@ -30,7 +30,7 @@ app.use(
 app.use(bodyParser.json());
 app.use("/admin", adminRoutes);
 app.use("/user", userRoutes);
-app.use("/team", teamRoutes);
+app.get("/fixtures/search", search);
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);

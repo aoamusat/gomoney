@@ -5,8 +5,8 @@ import adminAuth from "../middleware/admin";
 
 const router = express.Router();
 
-router.post("/signup", auth, adminAuth, signUp);
-router.post("/login", auth, adminAuth, login);
+router.post("/signup", signUp);
+router.post("/login", login);
 router.post("/teams", auth, adminAuth, createTeam);
 router.post("/fixtures", auth, adminAuth, createFixture);
 router.put("/fixtures/:id", auth, adminAuth, updateFixture);
