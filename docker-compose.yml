@@ -6,7 +6,7 @@ services:
     ports:
       - "5004:5004"
     environment:
-      - MONGO_URL=mongodb://mongo:27017/gomoney
+      - MONGODB_URI=mongodb://mongo:27017/gomoney
       - REDIS_URL=redis://redis:6379
     depends_on:
       - mongo
