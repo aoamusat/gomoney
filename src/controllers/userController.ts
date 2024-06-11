@@ -47,7 +47,7 @@ export const login = async (request: Request, response: Response) => {
     if (!user || !(await bcrypt.compare(password, user.password))) {
       return response.status(400).send({ error: "Invalid login credentials" });
     }
-    const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET_KEY || "secret", { expiresIn: "2 days" });
+    const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET_KEY || "", { expiresIn: "2 days" });
     response.status(200).json({ token, user: { email: user.username, role: user.role } });
   } catch (e) {
     response.status(500).send(e);
@@ -60,7 +60,7 @@ export const getTeams = async (request: Request, response: Response) => {
     return response.status(200).json({ teams: allTeams });
   } catch (error) {
     console.log(error);
-    return response.status(500).json({ message: "Internal Server Error", error: error });
+    return response.status(500).json({ message: "Internal Server Error" });
   }
 };
 
