@@ -7,7 +7,7 @@ import { config } from "dotenv";
 import session from "express-session";
 import RedisStore from "connect-redis";
 import { createClient } from "redis";
-import { search } from "./controllers/userController";
+import { search, showFixture } from "./controllers/userController";
 
 config();
 
@@ -31,6 +31,7 @@ app.use(bodyParser.json());
 app.use("/admin", adminRoutes);
 app.use("/user", userRoutes);
 app.get("/fixtures/search", search);
+app.get("/fixtures/:id", showFixture);
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);

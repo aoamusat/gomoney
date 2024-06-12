@@ -102,3 +102,16 @@ export const search = async (request: Request, response: Response) => {
     response.status(500).json({ error: "Internal server error" });
   }
 };
+
+export const showFixture = async (request: Request, response: Response) => {
+  try {
+    const fixture = await Fixture.find({ _id: request.params.id }, { _id: false, __v: false });
+    if (fixture) {
+      return response.json({ ...fixture });
+    }
+    return response.json({ message: "Fixture not found!" });
+  } catch (error) {
+    console.log(error);
+    response.status(500).json({ error: "Internal server error" });
+  }
+};
