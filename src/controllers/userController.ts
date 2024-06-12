@@ -7,6 +7,7 @@ import { signUpSchema } from "../validations/signup";
 import { loginSchema } from "../validations/login";
 import Team from "../models/team";
 import Fixture from "../models/fixture";
+import mongoose, { CastError } from "mongoose";
 
 config();
 
@@ -105,12 +106,15 @@ export const search = async (request: Request, response: Response) => {
 
 export const showFixture = async (request: Request, response: Response) => {
   try {
-    const fixture = await Fixture.find({ _id: request.params.id }, { _id: false, __v: false });
+    if (!mongoose.isValidObjectId(request.params.id)) {
+      return response.status(400).json({ error: "Invalid fixture ID" });
+    }
+    const fixture = await Fixture.findOne({ _id: request.params.id }, { _id: false, __v: false });
     if (fixture) {
-      return response.json({ ...fixture });
+      return response.json({ fixture });
     }
     return response.json({ message: "Fixture not found!" });
-  } catch (error) {
+  } catch (error: any) {
     console.log(error);
     response.status(500).json({ error: "Internal server error" });
   }
